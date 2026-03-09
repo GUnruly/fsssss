@@ -41,7 +41,7 @@ local punchIDs = {
     ["rbxassetid://17796387423"] = true,
     ["rbxassetid://17796396059"] = true,
     ["rbxassetid://17796400708"] = true,
-    ["rbxassetid://17796403834"] = true -- Das letzte braucht kein Komma, schadet aber auch nicht
+    ["rbxassetid://17796403834"] = true 
 }
 
 -- ==========================================
@@ -99,7 +99,8 @@ end)
 -- ==========================================
 local HboxTab = Window:CreateTab("Hbox", 4483362458)
 
-HboxTab:CreateToggle({
+-- Toggle in Variable speichern
+local HboxToggleElement = HboxTab:CreateToggle({
    Name = "Enable Hitbox Expander",
    CurrentValue = false,
    Flag = "HboxToggle",
@@ -136,6 +137,17 @@ HboxTab:CreateToggle({
    end,
 })
 
+-- Keybind für Hbox
+HboxTab:CreateKeybind({
+   Name = "Toggle Hitbox Expander",
+   CurrentKeybind = "Z",
+   HoldToInteract = false,
+   Flag = "HboxKeybind",
+   Callback = function()
+      HboxToggleElement:Set(not _G.HitboxEnabled)
+   end,
+})
+
 HboxTab:CreateSlider({
    Name = "Size", Range = {2, 10}, Increment = 1, CurrentValue = 5, Flag = "HboxSize",
    Callback = function(v) _G.HitboxSize = v end,
@@ -151,7 +163,8 @@ HboxTab:CreateSlider({
 -- ==========================================
 local PunchTab = Window:CreateTab("Fast Punch", 4483362458)
 
-PunchTab:CreateToggle({
+-- Toggle in Variable speichern
+local PunchToggleElement = PunchTab:CreateToggle({
    Name = "Enable Fast Punch",
    CurrentValue = false,
    Flag = "PunchToggle",
@@ -187,6 +200,17 @@ PunchTab:CreateToggle({
    end,
 })
 
+-- Keybind für Fast Punch
+PunchTab:CreateKeybind({
+   Name = "Toggle Fast Punch",
+   CurrentKeybind = "X",
+   HoldToInteract = false,
+   Flag = "PunchKeybind",
+   Callback = function()
+      PunchToggleElement:Set(not _G.PunchSpeedEnabled)
+   end,
+})
+
 PunchTab:CreateSlider({
    Name = "Punch Speed Multiplier", Range = {1, 5}, Increment = 0.1, CurrentValue = 2.5, Flag = "PV",
    Callback = function(v) _G.PunchSpeedValue = v end,
@@ -197,7 +221,8 @@ PunchTab:CreateSlider({
 -- ==========================================
 local FastTab = Window:CreateTab("Fastment", 4483362458)
 
-FastTab:CreateToggle({
+-- Toggle in Variable speichern
+local FastToggleElement = FastTab:CreateToggle({
    Name = "Enable Fastment",
    CurrentValue = false,
    Flag = "FastToggle",
@@ -243,6 +268,17 @@ FastTab:CreateToggle({
    end,
 })
 
+-- Keybind für Fastment
+FastTab:CreateKeybind({
+   Name = "Toggle Fastment",
+   CurrentKeybind = "C",
+   HoldToInteract = false,
+   Flag = "FastKeybind",
+   Callback = function()
+      FastToggleElement:Set(not _G.FastmentEnabled)
+   end,
+})
+
 -- ==========================================
 -- TAB 4: SETTINGS (Panic)
 -- ==========================================
@@ -258,7 +294,4 @@ SettingsTab:CreateKeybind({
    CurrentKeybind = "RightShift",
    Flag = "PK",
    Callback = function() PanicReset() Rayfield:Destroy() end,
-
 })
-
-
