@@ -25,7 +25,7 @@ _G.PunchSpeedEnabled = false
 _G.PunchSpeedValue = 2.5
 
 local GAME_DEFAULT_SPEED = 10
-local BOOST_SPEED = 16
+local BOOST_SPEED = 18
 local BOOST_DURATION = 0.2
 
 local HitboxConnections = {}
@@ -260,4 +260,5 @@ SettingsTab:CreateKeybind({
    Callback = function() PanicReset() Rayfield:Destroy() end,
 
 })
+
 
