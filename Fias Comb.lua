@@ -19,10 +19,14 @@ local Window = Rayfield:CreateWindow({
 _G.HitboxEnabled = false
 _G.HitboxSize = 5
 _G.HitboxTransparency = 0.7
+_G.HboxKeyEnabled = true -- Neuer Status für den Hitbox Keybind
 
 _G.FastmentEnabled = false
+_G.FastKeyEnabled = true -- Neuer Status für den Fastment Keybind
+
 _G.PunchSpeedEnabled = false
 _G.PunchSpeedValue = 2.5
+_G.PunchKeyEnabled = true -- Neuer Status für den Fast Punch Keybind
 
 local GAME_DEFAULT_SPEED = 10
 local BOOST_SPEED = 18
@@ -99,7 +103,6 @@ end)
 -- ==========================================
 local HboxTab = Window:CreateTab("Hbox", 4483362458)
 
--- Toggle in Variable speichern
 local HboxToggleElement = HboxTab:CreateToggle({
    Name = "Enable Hitbox Expander",
    CurrentValue = false,
@@ -137,14 +140,25 @@ local HboxToggleElement = HboxTab:CreateToggle({
    end,
 })
 
--- Keybind für Hbox
+HboxTab:CreateToggle({
+   Name = "Enable Hitbox Keybind",
+   CurrentValue = true,
+   Flag = "HboxKeyEnabledToggle",
+   Callback = function(Value)
+      _G.HboxKeyEnabled = Value
+   end,
+})
+
 HboxTab:CreateKeybind({
-   Name = "Toggle Hitbox Expander",
+   Name = "Hitbox Keybind",
    CurrentKeybind = "Z",
    HoldToInteract = false,
    Flag = "HboxKeybind",
    Callback = function()
-      HboxToggleElement:Set(not _G.HitboxEnabled)
+      -- Wird nur ausgeführt, wenn der Keybind im Menü aktiviert ist
+      if _G.HboxKeyEnabled then
+         HboxToggleElement:Set(not _G.HitboxEnabled)
+      end
    end,
 })
 
@@ -163,7 +177,6 @@ HboxTab:CreateSlider({
 -- ==========================================
 local PunchTab = Window:CreateTab("Fast Punch", 4483362458)
 
--- Toggle in Variable speichern
 local PunchToggleElement = PunchTab:CreateToggle({
    Name = "Enable Fast Punch",
    CurrentValue = false,
@@ -200,14 +213,24 @@ local PunchToggleElement = PunchTab:CreateToggle({
    end,
 })
 
--- Keybind für Fast Punch
+PunchTab:CreateToggle({
+   Name = "Enable Fast Punch Keybind",
+   CurrentValue = true,
+   Flag = "PunchKeyEnabledToggle",
+   Callback = function(Value)
+      _G.PunchKeyEnabled = Value
+   end,
+})
+
 PunchTab:CreateKeybind({
-   Name = "Toggle Fast Punch",
+   Name = "Fast Punch Keybind",
    CurrentKeybind = "X",
    HoldToInteract = false,
    Flag = "PunchKeybind",
    Callback = function()
-      PunchToggleElement:Set(not _G.PunchSpeedEnabled)
+      if _G.PunchKeyEnabled then
+         PunchToggleElement:Set(not _G.PunchSpeedEnabled)
+      end
    end,
 })
 
@@ -221,7 +244,6 @@ PunchTab:CreateSlider({
 -- ==========================================
 local FastTab = Window:CreateTab("Fastment", 4483362458)
 
--- Toggle in Variable speichern
 local FastToggleElement = FastTab:CreateToggle({
    Name = "Enable Fastment",
    CurrentValue = false,
@@ -240,15 +262,12 @@ local FastToggleElement = FastTab:CreateToggle({
                 if input.UserInputType == Enum.UserInputType.MouseButton1 then
                    pcall(function()
                       local char = game.Players.LocalPlayer.Character
-                      -- Only trigger if holding ANY tool
                       if char and char:FindFirstChildOfClass("Tool") then
                           local hum = char:FindFirstChildOfClass("Humanoid")
                           if hum then
-                              -- SPEED BOOST
                               hum.WalkSpeed = BOOST_SPEED
                               task.wait(BOOST_DURATION)
                               
-                              -- RESET
                               if _G.FastmentEnabled and hum then 
                                   hum.WalkSpeed = GAME_DEFAULT_SPEED 
                               end
@@ -268,14 +287,24 @@ local FastToggleElement = FastTab:CreateToggle({
    end,
 })
 
--- Keybind für Fastment
+FastTab:CreateToggle({
+   Name = "Enable Fastment Keybind",
+   CurrentValue = true,
+   Flag = "FastKeyEnabledToggle",
+   Callback = function(Value)
+      _G.FastKeyEnabled = Value
+   end,
+})
+
 FastTab:CreateKeybind({
-   Name = "Toggle Fastment",
+   Name = "Fastment Keybind",
    CurrentKeybind = "C",
    HoldToInteract = false,
    Flag = "FastKeybind",
    Callback = function()
-      FastToggleElement:Set(not _G.FastmentEnabled)
+      if _G.FastKeyEnabled then
+         FastToggleElement:Set(not _G.FastmentEnabled)
+      end
    end,
 })
 
